@@ -129,3 +129,6 @@ def main():
         plt.subplot(num_rows, 2*num_cols, 2*i+2)
         plot_val_array(i, predictions, test_labels)
     plt.show()
+
+if __name__ == '__main__':
+    main()

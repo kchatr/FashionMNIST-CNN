@@ -67,3 +67,10 @@ def main():
 
     # Compile the Model
     model.compile(optimizer='adam', loss = tf.keras.losses.SparseCategoricalCrossentropy(), metrics=['accuracy'])
+
+    # Train the Model
+    BATCH_SIZE = 32
+    train_ds = train_ds.cache().shuffle(num_train_examples).batch(BATCH_SIZE)
+    test_ds=test_ds.cache().batch(BATCH_SIZE)
+
+    model.fit(x=train_ds, epochs=5)

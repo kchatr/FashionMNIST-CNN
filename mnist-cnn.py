@@ -74,3 +74,14 @@ def main():
     test_ds=test_ds.cache().batch(BATCH_SIZE)
 
     model.fit(x=train_ds, epochs=5)
+
+    # Evaluate Model Performance on Test Data
+    test_loss, test_accuracy = model.evaluate(test_ds, steps=math.ceil(num_test_examples/BATCH_SIZE))
+    print('Accuracy on test dataset:', test_accuracy)
+
+    # Generate Predictions on Test Data
+    predictions, test_images, test_labels = None, None, None
+    for test_images, test_labels in test_ds.take(1):
+        test_images = test_images.numpy()
+        test_labels = test_labels.numpy()
+        predictions = model.predict(test_images)

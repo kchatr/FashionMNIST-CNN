@@ -12,3 +12,14 @@ import matplotlib.pyplot as plt
 import logging
 logger = tf.getLogger()
 logger.setLevel(logging.ERROR)
+
+
+
+def main():
+    # Import & Split Dataset
+    dataset, metadata = tfds.load('fashion_mnist', as_supervised=True, with_info=True)
+    train_ds, test_ds = dataset['train'], dataset['test']
+    class_names = metadata.features['label'].names
+    num_train_examples = metadata.splits['train'].num_examples
+    num_test_examples = metadata.splits['test'].num_examples
+

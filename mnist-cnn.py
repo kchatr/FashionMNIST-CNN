@@ -18,6 +18,37 @@ def normalize_data(images, labels):
     images /= 255
     return images, labels
 
+def plot_image(index, pred_arr, labels, class_names, images):
+    predictions_array, label, img = pred_arr[index], labels[index], images[index] 
+    plt.grid(False)
+    plt.xticks([])
+    plt.yticks([])
+
+    plt.imshow(img[..., 0], cmap=plt.cm.binary)
+
+    predicted_label = np.argmax(predictions_array)
+    if predicted_label == label:
+        color = 'blue'
+    else:
+        color = 'red'
+    
+    plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label],
+                            100*np.max(predictions_array),
+                            class_names[label]),
+                            color=color)
+
+def plot_val_array(index, pred_arr, labels):
+    predictions_array, label = pred_arr[index], labels[index]
+    plt.grid(False)
+    plt.xticks([])
+    plt.yticks([])
+    thisplot = plt.bar(range(10), predictions_array, color="#777777")
+    plt.ylim([0, 1]) 
+    predicted_label = np.argmax(predictions_array)
+    
+    thisplot[predicted_label].set_color('red')
+    thisplot[label].set_color('blue')
+
 
 def main():
     # Import & Split Dataset
@@ -85,3 +116,16 @@ def main():
         test_images = test_images.numpy()
         test_labels = test_labels.numpy()
         predictions = model.predict(test_images)
+    
+    # Plot Model Predictions
+    num_rows = 5
+    num_cols = 3
+    num_images = num_rows*num_cols
+    
+    plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+    for i in range(num_images):
+        plt.subplot(num_rows, 2*num_cols, 2*i+1)
+        plot_image(i, predictions, test_labels, class_names, test_images)
+        plt.subplot(num_rows, 2*num_cols, 2*i+2)
+        plot_val_array(i, predictions, test_labels)
+    plt.show()

@@ -52,3 +52,18 @@ def main():
         plt.imshow(image, cmap=plt.cm.binary)
         plt.xlabel(class_names[label])
     plt.show()
+
+    # Initialize the Model
+    # Uses two convolution layers followed by two densely connected layers, with the final layer serving as the output layer.
+    model = tf.keras.Sequential([
+        tf.keras.layers.Conv2D(32, (3, 3), padding='same', activation=tf.keras.activations.relu, input_shape = (28, 28, 1)),
+        tf.keras.layers.MaxPooling2D((2, 2), strides=2),
+        tf.keras.layers.Conv2D(64, (3,3), padding='same', activation=tf.nn.relu),
+        tf.keras.layers.MaxPooling2D((2, 2), strides=2),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(128, activation=tf.keras.activations.relu),
+        tf.keras.layers.Dense(10, activation=tf.keras.activations.softmax)
+    ])
+
+    # Compile the Model
+    model.compile(optimizer='adam', loss = tf.keras.losses.SparseCategoricalCrossentropy(), metrics=['accuracy'])

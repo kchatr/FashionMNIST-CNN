@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # Set up logging
 import logging
-logger = tf.getLogger()
+logger = tf.get_logger()
 logger.setLevel(logging.ERROR)
 
 def normalize_data(images, labels):
